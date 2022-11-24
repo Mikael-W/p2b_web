@@ -1,8 +1,7 @@
 <script Setup>
 
-import AllEvents from '../components/AllEvents.vue'
-
-
+import AllEvents from '../components/AllEvents.vue';
+import Menu from '../components/UserMenu.vue';
 
 export default {
   name:"dashboard",
@@ -91,13 +90,15 @@ export default {
   }
   .plus-icon{
     height: 1.5rem;
+    margin-right: 1.5rem;
+    color: black;
   }
   .new-event_btn{
     display:flex;
     justify-content: space-between;
     align-items: center;
     padding-inline: 2rem;
-    margin-top: 2rem;
+    margin-block: 2rem;
     color:black;
     width: 10vw;
     background-color: #00C0FF;
@@ -118,7 +119,7 @@ export default {
   ul li {
     display: flex;
     align-items: center;
-    padding: 1rem 0  1rem 5rem;
+    padding: 1rem 0  1rem 2rem;
     color:white;
     width: 100%;
     height: 3rem;

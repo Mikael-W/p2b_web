@@ -138,6 +138,7 @@
 .logo{
   display: block;
   object-fit: contain;
+  height: 15rem;
  
 }
 .logo_container{
@@ -156,8 +157,13 @@
 }
 .home_btn{
   margin-top: 5rem;
-  width: 25vw;
+  padding-block: 1.5rem;
+  padding-inline: 10rem;
+  display: flex;
+  justify-content:center;
+  align-items: center;
   background-color: black;
+  font-size: 1.5rem;
 }
 
 .login_btn, .signup_btn{
@@ -219,13 +225,16 @@ label{
 .signup-link_container{
   margin-top: 1rem;
   font-size: 0.9rem;;
-  width: 40%;
+  width: 60%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
 }
 .signup_link{
   color: #00C0FF;
   text-decoration: underline;
+  margin-left: 0.5rem;
+ 
 }
 .signup-input_section{
   width: 90%;
