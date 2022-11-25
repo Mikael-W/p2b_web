@@ -6,7 +6,7 @@ export default {
 <template>
   <div class="allevents_container">
     <div class="event_container">
-      <div class="event_title">Mes évènements</div>
+      <div class="event_title">Mes évènements publicitaires</div>
       <div class="events">
         <div class="event_item">
           <div class="event_pict"></div>
