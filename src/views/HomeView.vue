@@ -8,7 +8,10 @@
       return{
         connexion_popUp: false,
         signupPage: false,
-        loginPage: true
+        loginPage: true,
+        isAssociation: false,
+        isEntreprise: true,
+        signupDone: false
       }
     },
     methods: {
@@ -27,8 +30,24 @@
       router.push({name: "dashboard"});
     },
     signup(){
-      this.signupPage = false;
-      this.loginPage = true;
+      this.connexion_popUp = false;
+      this.signupDone = true;
+    },
+    toggleEntity(){
+      const association = document.getElementById("association_link");
+      const entreprise = document.getElementById("entreprise_link");
+      if(this.isEntreprise == true){
+        this.isEntreprise = false;
+        this.isAssociation = true;
+        association.classList.add("active");
+        entreprise.classList.remove("active");
+      }else{
+        this.isEntreprise = true;
+        this.isAssociation = false;
+        entreprise.classList.add("active");
+        association.classList.remove("active");
+
+      }
     }
     
     }
@@ -64,58 +83,54 @@
         </form>
       </div>
       <div v-if="signupPage == true && loginPage == false" class="signup_container">
+        <div class="entityChoice">
+          <span @click="toggleEntity" id="entreprise_link">Entreprise/</span>
+          <span @click="toggleEntity" id="association_link">Association</span>
+        </div>
         <form class="signup_form">
-          <div class="signup-input_section">
+          <div v-if="isEntreprise == true" class="form_input">
+              <label for="name">Nom commercial</label>
+              <input class="com_input" type="text" >
+            </div>
+            <div v-if="isAssociation == true" class="form_input">
+              <label for="name">Nom de l'association</label>
+              <input class="com_input" type="text" >
+            </div>
+            <div class="signup-input_section">
             <div class="form_input">
               <label for="email">Email</label>
-              <input type="email" >
+              <input class="email_input" type="email" >
             </div>
             <div class="form_input">
-              <label for="entreprise">Entreprise</label>
-              <input type="text" >
+              <label for="phone">Numéro de téléphone</label>
+              <input class="tel" type="text" >
             </div>
           </div>
-          <div class="signup-input_section">
-            <div class="form_input">
+            <div v-if="isEntreprise == true" class="form_input">
               <label for="siret">Siret</label>
-              <input type="text" >
+              <input class="siret_input" type="text" >
             </div>
-            <div class="form_input">
-            <label for="phone">Numéro de téléphone</label>
-            <input type="text" >
-          </div>
-          </div>
-          <div class="signup-input_section">
-            <div class="form_input">
-              <label for="name">Nom</label>
-              <input type="text" >
-            </div>
-            <div class="form_input">
-              <label for="firstame">Prénom</label>
-              <input type="text" >
-            </div>
-          </div>
           <div class="form_input">
             <label for="address">Adresse</label>
-            <input type="text" >
+            <input class="adresse_input" type="text" >
           </div>
           <div class="signup-input_section">
             <div class="form_input">
             <label for="city">Ville</label>
-            <input type="text" >
+            <input class="city_input" type="text" >
           </div>
           <div class="form_input">
             <label for="zip">Code postal</label>
-            <input type="text" >
+            <input class="zip" type="text" >
           </div>
           </div>
           <div class="form_input">
             <label for="password">Mot de passe</label>
-            <input type="password" >
+            <input class="mdp_input" type="password" >
           </div>
           <div class="form_input">
             <label for="password-confirm">Confirmation de mot de passe</label>
-            <input type="password" >
+            <input class="mdp_input" type="password" >
           </div>
           <button class="signup_btn" @click="signup()">Connexion</button>
           <div class="signup-link_container">
@@ -124,6 +139,10 @@
           </div>
         </form>
       </div>
+    </div>
+    <div v-if="signupDone == true" class="account_popUp">
+      <span>Consulter vos emails pour valider votre compte</span>
+      <button @click="signupDone = false" class="popUp_btn">Ok</button>
     </div>
   </main>
 </template>
@@ -167,7 +186,7 @@
 }
 
 .login_btn, .signup_btn{
-  margin-top: 3rem;
+  margin-top: 2rem;
   width: 20vw;
   background-color: #00C0FF;
 }
@@ -185,14 +204,29 @@
   color:white;
 }
 .account_icon{
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 8.5rem;
 }
 .login_container, .signup_container{
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
+.entityChoice{
+  margin-top: 1rem;
+}
+#entreprise_link, #association_link{
+  cursor: pointer;
+}
+#entreprise_link:hover, #association_link:hover{
+  color: #00C0FF;
+}
+.active{
+  color: #00C0FF;
+}
+
 
 .login_form, .signup_form{
   width: 100%;
@@ -212,16 +246,17 @@
   
 }
 label{ 
-  padding-block: 1rem;
+  padding-block: 0.5rem;
 }
 .login_form input{
   width: 100%;
   height: 1.8rem;
 }
-.signup_form input{
-  width: 95%;
-  height: 1.8rem;
+.com_input, .adresse_input, .siret_input, .mdp_input {
+  width: 100%;
+  height: 1.5rem;
 }
+
 .signup-link_container{
   margin-top: 1rem;
   font-size: 0.9rem;;
@@ -229,6 +264,10 @@ label{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.city_input, .email_input{
+  width: 90%;
+  height: 1.5rem;
 }
 .signup_link{
   color: #00C0FF;
@@ -239,5 +278,34 @@ label{
 .signup-input_section{
   width: 90%;
   display: flex;
+}
+.tel, .zip{
+  width: 100%;
+  height: 1.5rem;
+}
+.account_popUp{
+  position: absolute;
+  width: 40rem;
+  height: 25rem;
+  background-color:black;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  border-radius:1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: center;
+  font-size:1.5rem;
+  text-align: center;
+}
+.popUp_btn{
+  width: 10rem;
+  height: 2rem;
+  background-color:#00C0FF;
+  border: none;
+  border-radius: 1rem;
+  color: white;
+  margin-top: 5rem;
 }
 </style>
