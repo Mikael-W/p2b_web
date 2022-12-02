@@ -26,6 +26,7 @@ body {
 	line-height: 1;
   background-color:#00C0FF;
 	font-family: 'roboto', sans-serif;
+	color:white;
 }
 ol, ul {
 	list-style: none;

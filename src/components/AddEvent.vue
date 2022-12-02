@@ -2,10 +2,31 @@
 export default {
   data(){
     return {
+      secondPartValue: false,
       categories: false,
       themes: [],
       upArrow: false,
       downArrow: true,
+      title:"",
+      startDate:"",
+      endDate:"",
+      startTime:"",
+      endTime:"",
+      adress:"",
+      city:"",
+      zipcode:"",
+      lat:"",
+      lng:"",
+      tel:"",
+      web:"",
+      price:"",
+      minPrice:"",
+      maxPrice:"",
+      descriptionFr:"",
+      descriptionEn:"",
+      conditionsFr:"",
+      conditionsEn:"",
+      isFree:false
     }
   },
   methods:{
@@ -18,6 +39,10 @@ export default {
         this.categories = false;
       }
       console.log(this.categories)
+    },
+    nextAddingPart(){
+      this.$emit("eventFirstPart",{secondPartValue:false});
+      
     }
   }
 
@@ -31,9 +56,9 @@ export default {
 <div class="event_container">
   <div class="event_container-infos">
     <div class="categories_box">
-      <div  v-if="themes != null">
+      <div class="themes_box" v-if="themes != null">
         <div  v-for="(theme, index) in themes" :key="index">
-       <span class="themes">{{theme}}</span>
+       <div class="themes">{{theme}}</div>
         </div>
       </div>
       <div class="placeholder" v-if="themes.length <= 0" >Catégories</div>
@@ -77,40 +102,103 @@ export default {
         <input type="checkbox" value="commemorations" v-model="themes">
       </div>
     </div>
-    <label for="title">Titre de l'évènement</label>
-    <input type="text" v-model="title">
-    <label for="startDate">Date de début</label>
-    <input type="date" v-model="startDate">
-    <label for="endDate">Date de fin</label>
-    <input type="date" v-model="endDate">
-    <label for="startTime">Heure de début</label>
-    <input type="date" v-model="startTime">
-    <label for="startTime">Heure de fin</label>
-    <input type="date" v-model="endTime">
-    <label for="adress">Adresse</label>
-    <input type="text" v-model="adress">
-    <label for="city">Ville</label>
-    <input type="text" v-model="city">
-    <label for="zip">Code Postal</label>
-    <input type="number" v-model="zipcode">
-    <label for="lat">Lattitude</label>
-    <input type="text" v-model="lat">
-    <label for="lng">Longitude</label>
-    <input type="text" v-model="lng">
-    <label for="tel">Téléphone</label>
-    <input type="tel" v-model="tel">
-    <label for="description">Description</label>
-    <textarea v-model="description"></textarea>
-    <label for="conditions">Conditions</label>
-    <textarea v-model="conditions"></textarea>
-    <label for="price">Prix</label>
-    <input type="text" v-model="price">
-    <label for="minPrice">Prix minimum</label>
-    <input type="text" v-model="minPrice">
-    <label for="maxPrice">Prix maximum</label>
-    <input type="text" v-model="maxPrice">
+    <div class="infos_input">
+      <label for="title">Titre de l'évènement *</label>
+      <input type="text" v-model="title">
+    </div>
+    <div class="box_moment">
+      <div class="infos_input">
+        <label for="startDate">Date de début *</label>
+        <input type="date" v-model="startDate">
+      </div>
+      <div class="infos_input">
+        <label for="endDate">Date de fin *</label>
+        <input type="date" v-model="endDate">
+      </div>
+    </div>
+    <div class="box_moment"> 
+      <div class="infos_input">
+        <label for="startTime">Heure de début</label>
+        <input type="text" v-model="startTime" placeholder="16:00">
+      </div>
+      <div class="infos_input">
+        <label for="endTime">Heure de fin</label>
+        <input type="text" v-model="endTime" placeholder="22:00">
+      </div>
   </div>
-    <div class="event_container-renderApp"></div>
+    <div class="infos_input">
+      <label for="adress">Adresse *</label>
+      <input type="text" v-model="adress">
+    </div>
+    <div class="infos_input">
+      <label for="city">Ville *</label>
+      <input type="text" v-model="city">
+    </div> 
+    <div class="infos_input">
+      <label for="zip">Code Postal *</label>
+      <input type="number" v-model="zipcode">
+    </div>
+    <div class="geolocate_inputs">
+      <div class="infos_input">
+      <label for="lat">Lattitude *</label>
+      <input type="text" v-model="lat">
+      </div>
+      <div class="infos_input">
+        <label for="lng">Longitude *</label>
+        <input type="text" v-model="lng">
+      </div>
+      <div class="location">
+        <img class="icon"  src="../assets/location.png" alt="">
+      </div>
+      
+    </div>
+    <div class="infos_input">
+      <label for="tel">Téléphone</label>
+      <input type="tel" v-model="tel">
+    </div>
+    <div class="infos_input">
+      <label for="web">Site web</label>
+      <input type="text" v-model="web">
+    </div>
+   
+    <div class="prices_box">
+      <div class="price_input">
+        <label for="price">Prix</label>
+        <input class="prices" type="text" v-model="price" placeholder="8,00€">
+      </div>
+      <div class="price_input">
+        <label for="minPrice">Prix minimum</label>
+        <input class="prices" type="text" v-model="minPrice" placeholder="5,00€">
+      </div>
+      <div class="price_input">
+        <label for="maxPrice">Prix maximum</label>
+        <input class="prices" type="text" v-model="maxPrice" placeholder="10,00€">
+      </div>
+    </div>
+    <div class="eventFree">
+      <input type="checkbox" value="eventFree" v-model="isFree">
+      <label for="coeventFreemmemoration">Entrée Gratuite</label>  
+    </div>
+  </div>
+  <div class="event_container-description">
+    <div class="event_picture">
+    </div>
+    <div class="file_input-box">
+      <label class="file_input">
+     <input type="file"/>
+      Importer une image ou une vidéo
+    </label>
+    </div>
+    <div class="infos_input">
+      <label for="descriptionFr">Description</label>
+    <textarea rows="7" v-model="descriptionFr"></textarea>
+    </div>
+    <div class="infos_input">
+      <label for="conditionsFr">Conditions</label>
+      <textarea rows="5" v-model="conditionsFr"></textarea>
+    </div>
+    <button @click="nextAddingPart()">Continuer &#8594;</button>
+  </div>
 </div>
   
   </div>
@@ -118,7 +206,7 @@ export default {
 </template>
 
 
-<style scoped>
+<style lang="css" scoped>
 .container {
   margin-left: 1rem;
   width: 78%;
@@ -144,7 +232,8 @@ export default {
   font-weight:bold;
   padding-top: 0.5rem;;
 }
-.event_container-infos, .event_container-renderApp{
+.event_container-infos, .event_container-description{
+  position: relative;
   display: flex;
   background-color:black;
   flex-direction: column;
@@ -162,7 +251,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content:space-between;
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 0 0.5rem;
+}
+.themes_box{
+  display: flex;
+  flex-wrap: wrap;
+
 }
 #arrow{
   height: 30px;
@@ -175,6 +269,8 @@ export default {
   transform: rotate(0.5turn);
 }
 .categories_box-container{
+  position: absolute;
+  margin-top:2.5rem;
   width: 90%;
   background-color:black;
   border: 1px solid white;
@@ -185,7 +281,92 @@ export default {
   color: white;
   padding: 0.8rem
 }
+.themes{
+  background-color:#00C0FF;
+  margin-left: 0.3rem;
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+}
 label{
   color: white;
+  margin-left: 0.5rem
+}
+input, textarea{
+  margin-left: 0.5rem
+}
+input[type='checkbox'] {
+    accent-color: #00C0FF;
+}
+textarea{
+  resize:none;
+  overflow: scroll;
+}
+.infos_input, .price_input{
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  width: 90%;
+  padding-block: 0.4rem;
+}
+.price_input{
+  width: 28%;
+}
+.prices{
+  text-align: end;
+}
+.box_moment, .box_startEnding, .geolocate_inputs, .prices_box{
+  width: 90%;
+  display: flex;
+  justify-content:space-between;
+  align-items:center
+}
+.eventFree{
+  display: flex;
+  justify-content:flex-start;
+  width: 90%;
+}
+.event_picture{
+  margin-block:1rem;
+  width:90%;
+  height: 10rem;
+  background-color:white;
+
+}
+.file_input-box{
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+}
+input[type="file"] {
+    display: none;
+}
+.file_input {
+  display: block;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+.file_input:hover,button:hover{
+  background-color:#00C0FF;
+  color: white;
+}
+button{
+  margin-top: 2.5rem;
+  width: 60%;
+  height: 2rem;
+  color:white;
+  background-color:black;
+  border: 1px solid white;
+  border-radius: 5rem;
+  cursor: pointer;
+}
+.location{
+  margin-left: 0.3rem;
+  cursor: pointer;
+  display: block;
+}
+.icon{
+  height: 1.5rem;
 }
 </style>
