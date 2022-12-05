@@ -46,9 +46,8 @@
         this.isAssociation = false;
         entreprise.classList.add("active");
         association.classList.remove("active");
-
       }
-    }
+    },
     
     }
     

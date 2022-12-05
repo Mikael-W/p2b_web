@@ -5,10 +5,11 @@ export default {
     return {
       activeId: 1,
       linksMenu:[
-        {id:1, titleLink: 'Accueil'},
-        {id:2, titleLink: 'Mes évènements payants'},
-        {id:3, titleLink: 'Mes évènements gratuit'},
-        {id:4, titleLink: 'Mon compte'},
+        {id:1, titleLink: 'Mes évènements'},
+        {id:2, titleLink: 'Évènements payants'},
+        {id:3, titleLink: 'Évènements gratuit'},
+        {id:4, titleLink: 'Utilisateurs'},
+        {id:5, titleLink: 'Mon compte'},
       ]
     }
   },
