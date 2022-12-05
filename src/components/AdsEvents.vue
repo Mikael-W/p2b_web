@@ -6,7 +6,11 @@ export default {
 <template>
   <div class="allevents_container">
     <div class="event_container">
-      <div class="event_title">Mes évènements publicitaires</div>
+      <div class="event_title">Mes évènements</div>
+      <div class="searchBar">
+        <input type="text" v-model="searchFilter" placeholder="Entrer ici votre recherche ">
+        <button>&#x1F50E; Rechercher </button>
+      </div>
       <div class="events">
         <div class="event_item">
           <div class="event_pict"></div>
@@ -120,7 +124,7 @@ export default {
 .allevents_container{
   margin-left: 1rem;
   width: 78%;
-  height: 90vh;
+  height: 95vh;
   background-color:black;
   border-radius: 1rem;
   display: flex;
@@ -141,7 +145,7 @@ export default {
   color: white;
 }
 .events, .stats{
-  margin-top: 1.5rem;
+  margin-top: 0.8rem;
   width: 100%;
   height: 75vh;
   background-color: #00C0FF;
@@ -152,17 +156,21 @@ export default {
   scrollbar-width: thin;
 }
 .events{
+  padding-top: 0.5rem;
   flex-direction: column;
   justify-content: space-around;
  
 }
 .stats{
+  height: 85%;
+  margin-top: 1rem;
   justify-content:space-around;
   flex-wrap: wrap;
 }
 .event_item{
   height: 7rem;
-  width: 90%;
+  width: 95%;
+  margin-bottom: 0.2rem;
   background-color: black;
   display: flex;
   justify-content: start;
@@ -225,5 +233,39 @@ button{
   border: none;
   padding: 0.4rem;  
   margin: 0 0.5rem 0 0.5rem;
+}
+.searchBar{
+  display: flex;
+  width: 100%;
+ height: 2rem;	
+ margin-top: 0.5rem;
+}
+.searchBar input{
+  width:75%;
+  background-color:#00C0FF;
+  color: white;
+  border: none;
+  outline: none;
+  border-top-left-radius:1rem;
+  border-bottom-left-radius:1rem;
+  text-indent: 1rem;
+}
+::placeholder{
+  color:white;
+}
+.searchBar button{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size:0.8rem;
+  width: 25%;
+  margin: 0;
+  border-top-right-radius:1rem;
+  border-bottom-right-radius:1rem;
+  background-color: black;
+  border-top: 2px solid #00C0FF;
+  border-bottom: 2px solid #00C0FF;
+  border-right: 2px solid #00C0FF;
+  
 }
 </style>
