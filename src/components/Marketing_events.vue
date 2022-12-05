@@ -1,12 +1,14 @@
-<template>
-  <div class="container"></div>
-</template>
-
 <script>
 export default {
 
 }
 </script>
+
+<template>
+  <div class="container"></div>
+</template>
+
+
 
 <style lang="css" scoped>
 .container {

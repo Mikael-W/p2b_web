@@ -1,12 +1,28 @@
 <script>
+
+  import DeletePopUp from "../components/PopUp_delete.vue";
+
 export default {
+  components: {DeletePopUp},
+  data(){
+    return{
+      deletePopUp: false,
+      searchFilter:"",
+    }
+  },
+  methods:{
+    closingModal(isTrue){
+      this.deletePopUp = isTrue.toClose
+    }
+  }
+  
 }
 </script>
 
 <template>
   <div class="allevents_container">
     <div class="event_container">
-      <div class="event_title">Mes évènements</div>
+      <div class="event_title">Évènements Payants</div>
       <div class="searchBar">
         <input type="text" v-model="searchFilter" placeholder="Entrer ici votre recherche ">
         <button>&#x1F50E; Rechercher </button>
@@ -24,8 +40,8 @@ export default {
             </div>
             <div class="event_description-actions">
               <button>Modifier</button>
-              <button>Supprimer</button>
-            </div>
+              <button @click="deletePopUp = true">Supprimer</button>
+            </div> 
           </div>
         </div>
         <div class="event_item">
@@ -116,6 +132,7 @@ export default {
       </div>
     </div>
   </div>
+ <DeletePopUp @closeModal="closingModal" v-if="deletePopUp == true"/>
 </template>
 
 
@@ -266,6 +283,5 @@ button{
   border-top: 2px solid #00C0FF;
   border-bottom: 2px solid #00C0FF;
   border-right: 2px solid #00C0FF;
-  
 }
 </style>

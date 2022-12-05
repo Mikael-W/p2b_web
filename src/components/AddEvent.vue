@@ -2,7 +2,8 @@
 export default {
   data(){
     return {
-      secondPartValue: false,
+      isEntreprise: false,
+      isAssociation: true,
       categories: false,
       themes: [],
       upArrow: false,
@@ -41,7 +42,13 @@ export default {
       console.log(this.categories)
     },
     nextAddingPart(){
-      this.$emit("eventFirstPart",{secondPartValue:false});
+      if(this.isEntreprise == true){
+        this.$emit("marketSetting",{adspart:true});
+      }
+      if(this.isAssociation == true){
+        this.$emit("marketSetting", {adspart: false})
+      }
+     
       
     }
   }
@@ -352,7 +359,7 @@ input[type="file"] {
   color: white;
 }
 button{
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   width: 60%;
   height: 2rem;
   color:white;

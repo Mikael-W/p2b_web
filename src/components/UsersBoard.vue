@@ -19,20 +19,19 @@ export default {
 </script>
 
 <template>
-  <div class="allevents_container">
-    <div class="event_container">
-      <div class="event_title">Évènements gratuits</div>
+  <div class="allUsers_container">
+    <div class="users_container">
+      <div class="users_title">Mes évènements</div>
       <div class="searchBar">
         <input type="text" v-model="searchFilter" placeholder="Entrer ici votre recherche ">
         <button>&#x1F50E; Rechercher </button>
       </div>
-      <div class="events">
-        <div class="event_item">
-          <div class="event_pict"></div>
+      <div class="users">
+        <div class="user_item">
           <div class="event_description-container">
             <div class="event_description-infos">
-              <div class="event_description-title">Titre de l'évènement</div>
-              <div class="event_description-location">
+              <div class="username">Titre de l'évènement</div>
+              <div class="user_adresse">
                 <span class="zip">Code Postal</span>
                 <span class="city">Ville</span>
               </div>
@@ -137,7 +136,7 @@ export default {
 
 
 <style scoped>
-.allevents_container{
+.allUsers_container{
   margin-left: 1rem;
   width: 78%;
   height: 95vh;
@@ -147,7 +146,7 @@ export default {
   justify-content:space-around;
   
 }
-.event_container, .stats_container{
+.user_container, .stats_container{
   display: flex;
   flex-direction: column;
   align-items: center;
