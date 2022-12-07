@@ -14,7 +14,7 @@ export default {
 <template>
   <div class="container"></div>
     <div class="deletePopUp_container">
-      <div class="deletePopUp_title">Êtes vous sur de vouloir supprimer cet évènenment</div>
+      <div class="deletePopUp_title">Êtes vous sur de vouloir effectuer cette suppression</div>
       <div class="deletePopUp-buttons">
         <button>Oui</button>
         <button @click="closeModal">Retour</button>

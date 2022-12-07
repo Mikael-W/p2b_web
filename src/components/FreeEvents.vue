@@ -6,7 +6,8 @@ export default {
   components: {DeletePopUp},
   data(){
     return{
-      deletePopUp: false
+      deletePopUp: false,
+      searchFilter: "",
     }
   },
   methods:{

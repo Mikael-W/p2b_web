@@ -2,8 +2,8 @@
 export default {
   data(){
     return {
-      isEntreprise: false,
-      isAssociation: true,
+      isEntreprise: true,
+      isAssociation: false,
       categories: false,
       themes: [],
       upArrow: false,
@@ -64,49 +64,49 @@ export default {
   <div class="event_container-infos">
     <div class="categories_box">
       <div class="themes_box" v-if="themes != null">
-        <div  v-for="(theme, index) in themes" :key="index">
+        <div  v-for="(theme, index) in themes.slice(0, 4)" :key="index">
        <div class="themes">{{theme}}</div>
         </div>
       </div>
-      <div class="placeholder" v-if="themes.length <= 0" >Catégories</div>
+      <div class="placeholder" v-if="themes.length <= 0" >Catégories (maximum 3)</div>
       <img id="arrow"  @click="toggleArrow()" src="../assets/icons8-collapse-arrow-50.png" alt="">
     </div>
     <div class="categories_box-container" v-if="categories == true">
       <div class="categories_box-input" >
         <label for="bricBrac">Brocantes et vide greniers</label>
-        <input type="checkbox" value="bricBrac" v-model="themes">
+        <input type="checkbox" value="Brocante" v-model="themes">
       </div>
       <div class="categories_box-input">
         <label for="familly">Famille</label>
-        <input type="checkbox" value="familly" v-model="themes">
+        <input type="checkbox" value="Famille" v-model="themes">
       </div>
       <div class="categories_box-input">
         <label for="exhibitions">Expositions</label>
-        <input type="checkbox" value="exhibitions" v-model="themes">
+        <input type="checkbox" value="Expositions" v-model="themes">
       </div>
       <div class="categories_box-input">
         <label for="shows">Spectacles - Concerts - Bals</label>
-        <input type="checkbox" value="shows" v-model="themes">
+        <input type="checkbox" value="Spectacles" v-model="themes">
       </div>
       <div class="categories_box-input">
         <label for="sports">Évènements sportifs</label>
-        <input type="checkbox" value="sports" v-model="themes">
+        <input type="checkbox" value="Sports" v-model="themes">
       </div>
       <div class="categories_box-input">
         <label for="culturals">Évènements Culturel</label>
-        <input type="checkbox" value="culturals" v-model="themes">
+        <input type="checkbox" value="Culturels" v-model="themes">
       </div>
       <div class="categories_box-input">
         <label for="markets">Fêtes - Marchés - Autres</label>
-        <input type="checkbox" value="markets" v-model="themes">
+        <input type="checkbox" value="Marchés" v-model="themes">
       </div>
       <div class="categories_box-input">
         <label for="fairs">Foires et Salons</label>
-        <input type="checkbox" value="fairs" v-model="themes">
+        <input type="checkbox" value="Salons" v-model="themes">
       </div>
       <div class="categories_box-input">
         <label for="commemoration">Commemoration</label>
-        <input type="checkbox" value="commemorations" v-model="themes">
+        <input type="checkbox" value="Commemorations" v-model="themes">
       </div>
     </div>
     <div class="infos_input">
@@ -153,11 +153,11 @@ export default {
       <div class="infos_input">
         <label for="lng">Longitude *</label>
         <input type="text" v-model="lng">
-      </div>
-      <div class="location">
-        <img class="icon"  src="../assets/location.png" alt="">
-      </div>
-      
+      </div> 
+    </div>
+    <div class="latLng_btn-box">
+      <div class="div">Générer la lattitude et longitude</div>
+      <button>Générer</button>
     </div>
     <div class="infos_input">
       <label for="tel">Téléphone</label>
@@ -170,15 +170,11 @@ export default {
    
     <div class="prices_box">
       <div class="price_input">
-        <label for="price">Prix</label>
-        <input class="prices" type="text" v-model="price" placeholder="8,00€">
-      </div>
-      <div class="price_input">
-        <label for="minPrice">Prix minimum</label>
+        <label for="minPrice">Prix enfant</label>
         <input class="prices" type="text" v-model="minPrice" placeholder="5,00€">
       </div>
       <div class="price_input">
-        <label for="maxPrice">Prix maximum</label>
+        <label for="maxPrice">Prix adulte</label>
         <input class="prices" type="text" v-model="maxPrice" placeholder="10,00€">
       </div>
     </div>
@@ -262,8 +258,6 @@ export default {
 }
 .themes_box{
   display: flex;
-  flex-wrap: wrap;
-
 }
 #arrow{
   height: 30px;
@@ -308,12 +302,23 @@ textarea{
   resize:none;
   overflow: scroll;
 }
+.latLng_btn-box{
+  width:85%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.latLng_btn-box button {
+  width: 8rem;
+  margin-top: 0;
+  height: 1.5rem;
+}
 .infos_input, .price_input{
   display: flex;
   flex-direction: column;
   justify-content:space-between;
   width: 90%;
-  padding-block: 0.4rem;
+  padding-block: 0.3rem;
 }
 .price_input{
   width: 28%;
@@ -324,7 +329,6 @@ textarea{
 .box_moment, .box_startEnding, .geolocate_inputs, .prices_box{
   width: 90%;
   display: flex;
-  justify-content:space-between;
   align-items:center
 }
 .eventFree{
