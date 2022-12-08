@@ -8,6 +8,7 @@ import FreeEvents from '../components/FreeEvents.vue';
 import RecapEvent from '../components/RecapEvent.vue';
 import MarketingSettings from '../components/Marketing_events.vue';
 import UsersBoard from '../components/UsersBoard.vue';
+import OrderPage from '../components/OrderingEvent.vue';
 
 export default {
   name:"dashboard",
@@ -19,7 +20,8 @@ export default {
     FreeEvents,
     RecapEvent,
     MarketingSettings,
-    UsersBoard
+    UsersBoard,
+    OrderPage
   },
     data(){
       return {
@@ -43,6 +45,12 @@ export default {
           this.eventCase = 1
         }
       },
+      recapEvent(){
+        this.eventCase = 1
+      },
+      orderingEvent(){
+        this.eventCase = 3
+      }
     }
 }
 </script>
@@ -51,8 +59,9 @@ export default {
   <div class="dashboard_container">
    <Menu  @activeId="activeValue" />
     <AddEvent  @marketSetting="eventStepValue" v-if="(activeIdLink === 0 && eventCase == 0)"/> 
-    <RecapEvent v-if="(eventCase === 1)" />
-    <MarketingSettings v-if="(eventCase === 2)" />
+    <MarketingSettings @closeMarketing="recapEvent" v-if="(eventCase === 2 && activeIdLink === 0 )" />
+    <RecapEvent @orderEvent="orderingEvent" v-if="(eventCase === 1)" />
+    <OrderPage v-if="(eventCase === 3)"/>
     <AllEvents v-if="(activeIdLink == 1)"/>
     <AdsEvents v-if="(activeIdLink == 2)"/>
     <FreeEvents v-if="(activeIdLink == 3)"/>

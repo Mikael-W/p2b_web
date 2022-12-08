@@ -1,6 +1,17 @@
 
 <script>
 export default {
+  data(){
+    return{
+      isAssociation:false,
+      isEntreprise:true
+    }
+  },
+  methods:{
+    orderEvent(){
+      this.$emit('orderEvent', {orderringPage: true})
+    }
+  }
 
 }
 </script>
@@ -39,7 +50,8 @@ export default {
       <div class="container_appRender-list"></div>
       <div class="container_appRender-title">Rendu d'affichage Détail</div>
       <div class="container_appRender-details"></div>
-      <button>Valider</button>
+      <button v-if="(isAssociation == true)">Valider</button>
+      <button v-if="(isEntreprise == true)" @click=orderEvent() >Passer commande</button>
     </div>
   </div>
   
