@@ -50,6 +50,9 @@ export default {
       },
       orderingEvent(){
         this.eventCase = 3
+      },
+      closeOrder(){
+        this.activeIdLink = 1
       }
     }
 }
@@ -61,7 +64,7 @@ export default {
     <AddEvent  @marketSetting="eventStepValue" v-if="(activeIdLink === 0 && eventCase == 0)"/> 
     <MarketingSettings @closeMarketing="recapEvent" v-if="(eventCase === 2 && activeIdLink === 0 )" />
     <RecapEvent @orderEvent="orderingEvent" v-if="(eventCase === 1)" />
-    <OrderPage v-if="(eventCase === 3)"/>
+    <OrderPage @orderDone="closeOrder" v-if="(eventCase === 3 && activeIdLink === 0)"/>
     <AllEvents v-if="(activeIdLink == 1)"/>
     <AdsEvents v-if="(activeIdLink == 2)"/>
     <FreeEvents v-if="(activeIdLink == 3)"/>
