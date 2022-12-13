@@ -1,9 +1,14 @@
 <script >
-   import router from '../router'
+   import router from '../router';
+   import { useUserStore } from '@/stores/users';
 
   
   export default{
     name: "home",
+    setup(){
+      const userStore = useUserStore();
+      return { userStore }
+    },
     data(){
       return{
         connexion_popUp: false,
@@ -11,7 +16,9 @@
         loginPage: true,
         isAssociation: false,
         isEntreprise: true,
-        signupDone: false
+        signupDone: false,
+        email:"",
+        pwd:""
       }
     },
     methods: {
@@ -26,9 +33,9 @@
       this.signupPage = false;
       this.loginPage = true;
     },
-    login(){
-      router.push({name: "dashboard"});
-    },
+    // login(){
+    //   router.push({name: "dashboard"});
+    // },
     signup(){
       this.connexion_popUp = false;
       this.signupDone = true;
@@ -48,7 +55,10 @@
         association.classList.remove("active");
       }
     },
-    
+    async login() {
+      await this.userStore.signIn(this.email, this.pwd);
+      router.push("/dashboard");
+      }
     }
     
   }
@@ -68,13 +78,13 @@
         <form class="login_form">
           <div class="form_input">
             <label for="email">Email</label>
-            <input type="email" >
+            <input type="email" v-model="email" >
           </div>
           <div class="form_input">
             <label for="password">Mot de passe</label>
-            <input type="password" >
+            <input type="password" v-model="pwd" >
           </div>
-          <button class="login_btn" @click="login()">Connexion</button>
+          <button class="login_btn" @click.prevent="login()">Connexion</button>
           <div class="signup-link_container">
             <span> Pas encore de compte ?</span>
             <span class="signup_link" @click="openSignupPage()"> Créer un compte</span>

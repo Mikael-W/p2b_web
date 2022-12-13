@@ -48,8 +48,6 @@ export default {
       if(this.isAssociation == true){
         this.$emit("marketSetting", {adspart: false})
       }
-     
-      
     }
   }
 
@@ -271,7 +269,7 @@ export default {
 }
 .categories_box-container{
   position: absolute;
-  margin-top:2.5rem;
+  margin:2.5rem 0 0 0.5rem;
   width: 90%;
   background-color:black;
   border: 1px solid white;

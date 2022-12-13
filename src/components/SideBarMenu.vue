@@ -1,6 +1,12 @@
 <script>
+import { useUserStore } from '@/stores/users';
+import router from '../router';
 
 export default {
+  setup(){
+    const userStore = useUserStore();
+    return { userStore}
+  },
   data(){
     return {
       activeId: 1,
@@ -21,6 +27,10 @@ methods:{
   addEventLink(){
     this.activeId = 0;
     this.$emit("activeId",{activeId:0});
+  },
+  logout(){
+    this.userStore.$reset();
+    router.push("/");
   }
 }
 }
@@ -41,7 +51,7 @@ methods:{
         <div v-for="(link, index) in linksMenu" :key="index">
         <li v-bind:class="{active:(link.id === activeId)}" @click="selectLink(link.id)">{{ link.titleLink }}</li>
         </div>
-        <li>Déconnexion</li>
+        <li @click="logout">Déconnexion</li>
       </ul>
     </nav>
   </div>
