@@ -18,7 +18,17 @@
         isEntreprise: true,
         signupDone: false,
         email:"",
-        pwd:""
+        pwd:"",
+        brandName:"",
+        newEmail:"",
+        newPwd:"",
+        newPwdConfirm:"",
+        siret:"",
+        phone:"",
+        adress:"",
+        city:"",
+        zip:""
+
       }
     },
     methods: {
@@ -36,9 +46,23 @@
     // login(){
     //   router.push({name: "dashboard"});
     // },
-    signup(){
-      this.connexion_popUp = false;
-      this.signupDone = true;
+    async signup(){
+      const data = {
+        isEntreprise: this.isEntreprise,
+        isAssociation: this.isAssociation,
+        brandName: this.brandName,
+        newEmail : this.newEmail, 
+        newPwd : this.newPwd,
+        siret : this.siret,
+        phone: this.phone,
+        adress: this.adress,
+        city: this.city,
+        zip: this.zip
+      }
+      console.log(data);
+      await this.userStore.signUp(data);
+      // this.connexion_popUp = false;
+      // this.signupDone = true;
     },
     toggleEntity(){
       const association = document.getElementById("association_link");
@@ -93,55 +117,55 @@
       </div>
       <div v-if="signupPage == true && loginPage == false" class="signup_container">
         <div class="entityChoice">
-          <span @click="toggleEntity" id="entreprise_link">Entreprise/</span>
+          <span @click="toggleEntity" id="entreprise_link" class="active">Entreprise/</span>
           <span @click="toggleEntity" id="association_link">Association</span>
         </div>
         <form class="signup_form">
           <div v-if="isEntreprise == true" class="form_input">
               <label for="name">Nom commercial</label>
-              <input class="com_input" type="text" >
+              <input class="com_input" type="text" v-model="brandName" >
             </div>
             <div v-if="isAssociation == true" class="form_input">
               <label for="name">Nom de l'association</label>
-              <input class="com_input" type="text" >
+              <input class="com_input" type="text" v-model="brandName" >
             </div>
             <div class="signup-input_section">
             <div class="form_input">
               <label for="email">Email</label>
-              <input class="email_input" type="email" >
+              <input class="email_input" type="email" v-model="newEmail">
             </div>
             <div class="form_input">
               <label for="phone">Numéro de téléphone</label>
-              <input class="tel" type="text" >
+              <input class="tel" type="text" v-model="phone">
             </div>
           </div>
             <div v-if="isEntreprise == true" class="form_input">
               <label for="siret">Siret</label>
-              <input class="siret_input" type="text" >
+              <input class="siret_input" type="text" v-model="siret" >
             </div>
           <div class="form_input">
             <label for="address">Adresse</label>
-            <input class="adresse_input" type="text" >
+            <input class="adresse_input" type="text" v-model="adress" >
           </div>
           <div class="signup-input_section">
             <div class="form_input">
             <label for="city">Ville</label>
-            <input class="city_input" type="text" >
+            <input class="city_input" type="text" v-model="city" >
           </div>
           <div class="form_input">
             <label for="zip">Code postal</label>
-            <input class="zip" type="text" >
+            <input class="zip" type="text" v-model="zip" >
           </div>
           </div>
           <div class="form_input">
             <label for="password">Mot de passe</label>
-            <input class="mdp_input" type="password" >
+            <input class="mdp_input" type="password" v-model="newPwd">
           </div>
           <div class="form_input">
             <label for="password-confirm">Confirmation de mot de passe</label>
             <input class="mdp_input" type="password" >
           </div>
-          <button class="signup_btn" @click="signup()">Connexion</button>
+          <button class="signup_btn" @click.prevent="signup()">Connexion</button>
           <div class="signup-link_container">
             <span> Déjà un compte ?</span>
             <span class="signup_link" @click="openLoginPage()"> Se connecter</span>
