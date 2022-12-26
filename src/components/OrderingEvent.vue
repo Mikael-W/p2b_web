@@ -1,8 +1,14 @@
 <script>
+import { useEventStore } from "@/stores/events"
 export default {
+  setup(){
+    const eventStore = useEventStore();
+    return { eventStore}
+  },
   methods:{
-    orderDone(){
-      this.$emit("orderDone")
+    orderHandler(){
+      this.eventStore.orderEvent();
+      //this.$emit("orderDone")
     }
   }
 
@@ -91,7 +97,7 @@ export default {
         </div>
       </div>
     </div>
-    <button @click=orderDone() >Payer</button>
+    <button @click=orderHandler() >Payer</button>
   </div>
   </div>
 </template>

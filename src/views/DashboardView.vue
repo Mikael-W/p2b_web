@@ -1,5 +1,7 @@
 <script Setup>
 
+import { useUserStore } from "@/stores/users"
+
 import AllEvents from '../components/AllEvents.vue';
 import Menu from '../components/SideBarMenu.vue';
 import AddEvent from '../components/AddEvent.vue';
@@ -11,6 +13,10 @@ import UsersBoard from '../components/UsersBoard.vue';
 import OrderPage from '../components/OrderingEvent.vue';
 
 export default {
+  setup(){
+      const userStore = useUserStore();
+      return { userStore }
+    },
   name:"dashboard",
   components:{
     Menu, 
@@ -30,6 +36,9 @@ export default {
         entrepriseEvent: false,
         eventCase: 0
       }
+    },
+    beforeCreate(){
+      this.userStore.checkValidatedAccount();
     },
     methods:{
       activeValue(link){

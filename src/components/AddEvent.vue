@@ -1,5 +1,11 @@
 <script>
+import { useEventStore } from '../stores/events';
+import axios from 'axios';
 export default {
+  setup(){
+    const eventStore =  useEventStore();
+    return { eventStore }
+  },
   data(){
     return {
       isEntreprise: true,
@@ -9,16 +15,17 @@ export default {
       upArrow: false,
       downArrow: true,
       title:"",
+      image:"",
       startDate:"",
       endDate:"",
       startTime:"",
       endTime:"",
-      adress:"",
+      adresses:[],
       city:"",
       zipcode:"",
       lat:"",
       lng:"",
-      tel:"",
+      tel:[],
       web:"",
       price:"",
       minPrice:"",
@@ -27,7 +34,8 @@ export default {
       descriptionEn:"",
       conditionsFr:"",
       conditionsEn:"",
-      isFree:false
+      isFree:false,
+      file:{},
     }
   },
   methods:{
@@ -41,16 +49,65 @@ export default {
       }
       console.log(this.categories)
     },
+    onFileChange(e){
+      const files = e.target.files || e.dataTransfer.files;
+      if(!files.length)return
+      this.file = files;
+      console.log(this.file[0]);
+      this.createImage(files[0]);
+    },
+    createImage(file){
+      const image = new Image();
+      const reader = new FileReader();
+      const vm = this
+        reader.onload = (e) => {
+          vm.image = e.target.result;
+        };
+        reader.readAsDataURL(file);},
+    removeImage(e){
+      this.image = "";
+    },
     nextAddingPart(){
+        let event = new FormData();
+        event.append("isEntreprise",this.isEntreprise)
+        event.append("isAssociation", this.isAssociation)
+        event.append("categories", this.categories )
+        event.append("themes", this.themes )
+        event.append("title", this.title)
+        event.append("file", this.file[0] )
+        event.append("startDate", this.startDate )
+        event.append("endDate",this.endDate )
+        event.append("startTime", this.startTime)
+        event.append("endTime", this.endTime)
+        event.append("adresses", this.adresses)
+        event.append("city", this.city)
+        event.append("zipcode", this.zipcode)
+        event.append("lat", this.lat)
+        event.append("lng", this.lng)
+        event.append("tel", this.tel)
+        event.append("web", this.web)
+        event.append("minPrice", this.minPrice)
+        event.append("maxPrice", this.maxPrice)
+        event.append("descriptionFr", this.descriptionFr)
+        event.append("descriptionEn", this.descriptionEn)
+        event.append("conditionsFr",this.conditionsFr)
+        event.append("conditionsEn", this.conditionsEn)
+        event.append("isFree",this.isFree)
       if(this.isEntreprise == true){
         this.$emit("marketSetting",{adspart:true});
       }
       if(this.isAssociation == true){
         this.$emit("marketSetting", {adspart: false})
       }
-    }
+      this.useEventStore.addEvent(event);
+    },
+    async searchGeo(){
+        await axios.get(import.meta.env.VITE_GEO_API + `${this.adresses}&postcode=${this.zipcode}`).then(result => {
+          this.lng = result.data.features[0]['geometry']['coordinates'][0],
+            this.lat = result.data.features[0]['geometry']['coordinates'][1]
+        });
   }
-
+  }
 }
 </script>
 
@@ -60,14 +117,14 @@ export default {
     <span class="pageTitle">Création d'un évènement</span>
 <div class="event_container">
   <div class="event_container-infos">
-    <div class="categories_box">
+    <div class="categories_box" @click="toggleArrow()">
       <div class="themes_box" v-if="themes != null">
         <div  v-for="(theme, index) in themes.slice(0, 4)" :key="index">
-       <div class="themes">{{theme}}</div>
+       <div  class="themes">{{theme}}</div>
         </div>
       </div>
-      <div class="placeholder" v-if="themes.length <= 0" >Catégories (maximum 3)</div>
-      <img id="arrow"  @click="toggleArrow()" src="../assets/icons8-collapse-arrow-50.png" alt="">
+      <div @click="toggleArrow()" class="placeholder" v-if="themes.length <= 0" >Catégories (maximum 4)</div>
+      <img id="arrow"  src="../assets/icons8-collapse-arrow-50.png" alt="">
     </div>
     <div class="categories_box-container" v-if="categories == true">
       <div class="categories_box-input" >
@@ -133,7 +190,7 @@ export default {
   </div>
     <div class="infos_input">
       <label for="adress">Adresse *</label>
-      <input type="text" v-model="adress">
+      <input type="text" v-model="adresses">
     </div>
     <div class="infos_input">
       <label for="city">Ville *</label>
@@ -146,7 +203,7 @@ export default {
     <div class="geolocate_inputs">
       <div class="infos_input">
       <label for="lat">Lattitude *</label>
-      <input type="text" v-model="lat">
+      <input type="text" v-model="lat" >
       </div>
       <div class="infos_input">
         <label for="lng">Longitude *</label>
@@ -155,7 +212,7 @@ export default {
     </div>
     <div class="latLng_btn-box">
       <div class="div">Générer la lattitude et longitude</div>
-      <button>Générer</button>
+      <button @click="searchGeo()" class="">Générer</button>
     </div>
     <div class="infos_input">
       <label for="tel">Téléphone</label>
@@ -165,15 +222,20 @@ export default {
       <label for="web">Site web</label>
       <input type="text" v-model="web">
     </div>
-   
     <div class="prices_box">
       <div class="price_input">
         <label for="minPrice">Prix enfant</label>
-        <input class="prices" type="text" v-model="minPrice" placeholder="5,00€">
+        <div class="price_container">
+          <input class="prices" type="text" v-model="minPrice" placeholder="5,00">
+        <span class="euro">€</span>
+        </div>
       </div>
       <div class="price_input">
         <label for="maxPrice">Prix adulte</label>
-        <input class="prices" type="text" v-model="maxPrice" placeholder="10,00€">
+        <div class="price_container">
+          <input class="prices" type="text" v-model="maxPrice" placeholder="10,00">
+          <span class="euro">€</span>
+        </div> 
       </div>
     </div>
     <div class="eventFree">
@@ -183,10 +245,11 @@ export default {
   </div>
   <div class="event_container-description">
     <div class="event_picture">
+      <img class="event_image" :src="image">
     </div>
     <div class="file_input-box">
       <label class="file_input">
-     <input type="file"/>
+     <input type="file" @change="onFileChange"/>
       Importer une image ou une vidéo
     </label>
     </div>
@@ -211,7 +274,7 @@ export default {
 .container {
   margin-left: 1rem;
   width: 78%;
-  height: 90vh;
+  height: 95vh;
   background-color:black;
   border-radius: 1rem;
   display: flex;
@@ -288,7 +351,7 @@ export default {
 }
 label{
   color: white;
-  margin-left: 0.5rem
+  margin: 0 0 0.2rem 0.5rem;
 }
 input, textarea{
   margin-left: 0.5rem
@@ -319,7 +382,7 @@ textarea{
   padding-block: 0.3rem;
 }
 .price_input{
-  width: 28%;
+  width: 50%;
 }
 .prices{
   text-align: end;
@@ -329,6 +392,8 @@ textarea{
   display: flex;
   align-items:center
 }
+
+
 .eventFree{
   display: flex;
   justify-content:flex-start;
@@ -337,9 +402,14 @@ textarea{
 .event_picture{
   margin-block:1rem;
   width:90%;
-  height: 10rem;
+  height: 12rem;
   background-color:white;
 
+}
+.event_image{
+  width: 100%;
+  height:100%;
+  object-fit: cover
 }
 .file_input-box{
   width: 90%;
@@ -377,5 +447,12 @@ button{
 }
 .icon{
   height: 1.5rem;
+}
+.price_container{
+  display: flex;
+  align-items: center;
+}
+.euro{
+  margin-left: 0.5rem;
 }
 </style>

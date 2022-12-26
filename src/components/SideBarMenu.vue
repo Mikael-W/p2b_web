@@ -100,9 +100,9 @@ methods:{
     width: 13rem;
     background-color: #00C0FF;
     height: 5vh;
-  font-family: 'roboto', sans-serif;
-  border-radius: 5rem;
-  border: none;
+    cursor: pointer;
+    border-radius: 5rem;
+    border: none;
   }
   nav{ 
     margin-top: 2rem;

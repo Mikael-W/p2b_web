@@ -51,8 +51,8 @@
         isEntreprise: this.isEntreprise,
         isAssociation: this.isAssociation,
         brandName: this.brandName,
-        newEmail : this.newEmail, 
-        newPwd : this.newPwd,
+        email : this.newEmail, 
+        pwd : this.newPwd,
         siret : this.siret,
         phone: this.phone,
         adress: this.adress,
@@ -111,7 +111,7 @@
           <button class="login_btn" @click.prevent="login()">Connexion</button>
           <div class="signup-link_container">
             <span> Pas encore de compte ?</span>
-            <span class="signup_link" @click="openSignupPage()"> Créer un compte</span>
+            <span class="signup_link" @click.prevent="openSignupPage()"> Créer un compte</span>
           </div>
         </form>
       </div>
@@ -168,7 +168,7 @@
           <button class="signup_btn" @click.prevent="signup()">Connexion</button>
           <div class="signup-link_container">
             <span> Déjà un compte ?</span>
-            <span class="signup_link" @click="openLoginPage()"> Se connecter</span>
+            <span class="signup_link" @click.prevent="openLoginPage()"> Se connecter</span>
           </div>
         </form>
       </div>

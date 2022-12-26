@@ -1,16 +1,24 @@
 <script>
+import { useEventStore } from "@/stores/events"
+
 export default {
+  setup(){
+    const eventStore = useEventStore();
+    return {eventStore}
+  },
   data(){
     return {
       categories: false,
       themes: ["Spectacle", "Exposition", "Famille", "Marché"],
       upArrow: false,
       downArrow: true,
-      firstPackPrice :99,
-      secondPackPrice :199,
-      thirdPackPrice :299,
-      HeroPrice: 999,
-      premiumHero:9999
+      pack1Price :99,
+      pack2Price :199,
+      pack3Price :299,
+      heroPrice: 999,
+      premiumHero:9999,
+      pack:"",
+      price:"",
     }
   },
   computed:{
@@ -62,6 +70,12 @@ export default {
       if(this.themes.length > 1)this.themes.splice(index,1)
     },
     goToOrderPart(){
+      if(this.pack === 'Forfait 1')this.price = this.pack1Price
+      if(this.pack === 'Forfait 2')this.price = this.pack2Price
+      if(this.pack === 'Forfait 3')this.price = this.pack3Price
+      if(this.pack === 'Forfait 4')this.price = this.heroPrice
+      if(this.pack === 'Forfait 5')this.price = this.premiumHero
+      this.eventStore.defineEventCondition(this.pack, this.price)
       this.$emit("closeMarketing",{ adsPart: false})
     }
   }
@@ -95,8 +109,8 @@ export default {
           </div>
         </div>
         <div class="divider"></div>
-        <div class="price">{{firstPack}}€</div>
-        <input type="radio" name="packageChoice" value="packOne"/>
+        <div class="price">{{pack1Price}}€</div>
+        <input type="radio" name="packageChoice" value="Forfait 1" v-model="pack"/>
       </div>
       <div class="package">
         <div class="package_title">Forfait 2</div>
@@ -119,8 +133,8 @@ export default {
           </div>
         </div>
         <div class="divider"></div>
-        <div class="price">{{secondPack}}€</div>
-        <input type="radio" name="packageChoice" value="packTwo"/>
+        <div class="price">{{pack2Price}}€</div>
+        <input type="radio" name="packageChoice" value="Forfait 2" v-model="pack"/>
       </div>
       <div class="package">
         <div class="package_title">Forfait 3</div>
@@ -143,8 +157,8 @@ export default {
           </div>
         </div>
         <div class="divider"></div>
-        <div class="price">{{thirdPack}}€</div>
-        <input type="radio" name="packageChoice" value="packThree"/>
+        <div class="price">{{pack3Price}}€</div>
+        <input type="radio" name="packageChoice" value="Forfait 3" v-model="pack"/>
       </div>
       <div class="package">
         <div class="package_title">Forfait 4</div>
@@ -154,8 +168,8 @@ export default {
         <span class="bold">Rayon de diffusion:</span>
         <span>France</span>
         <div class="divider"></div>
-        <div class="price">{{HeroPrice}}€</div>
-        <input type="radio" name="packageChoice" value="packFour"/>
+        <div class="price">{{heroPrice}}€</div>
+        <input type="radio" name="packageChoice" value="Forfait 4" v-model="pack"/>
       </div>
       <div class="package">
         <div class="package_title">Forfait 5</div>
@@ -166,7 +180,7 @@ export default {
         <span>France</span>
         <div class="divider"></div>
         <div class="price">{{premiumHero}}€</div>
-        <input type="radio" name="packageChoice" value="packFive"/>
+        <input type="radio" name="packageChoice" value="Forfait 5" v-model="pack"/>
       </div>
     </div>
     <button @click=goToOrderPart() >Continuer  &#8594;</button>
