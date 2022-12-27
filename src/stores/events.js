@@ -41,9 +41,18 @@ export const useEventStore = defineStore("event", {
     },
     async orderEvent() {
       const eventObj = { name: this.packageEvent, price: this.adsEventPrice };
-      console.log(eventObj);
-      await axios.post(import.meta.env.VITE_DEV_API_URL + "/order", eventObj, { headers: { 'Content-Type': 'application/json; charset=utf-8' } }).then(response => { window.location = response.data.url });
-      console.log(this.stripeSession);
+      try {
+        await axios.post(import.meta.env.VITE_DEV_API_URL + "/order", eventObj, {
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          }
+        }).then(response => {
+          window.location = response.data.url
+        });
+        console.log(this.stripeSession);
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 });
