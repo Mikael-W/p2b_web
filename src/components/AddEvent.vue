@@ -194,7 +194,7 @@ export default {
     <div class="file_input-box" v-if="!image">
       <label class="file_input">
       <input type="file" @change="onFileChange" />
-        Importer une image ou une vidéo
+        cliquez ici pour importer une image ou une vidéo
       </label>
      
     </div>
@@ -500,6 +500,7 @@ textarea{
   width: 90%;
   display: flex;
   justify-content: flex-end;
+  cursor: pointer;
 }
 input[type="file"] {
     display: none;
